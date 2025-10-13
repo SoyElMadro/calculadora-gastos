@@ -87,6 +87,10 @@ export default function HomePage() {
                       <TabsContent value="expenses">
                         <GlobalExpenses />
                       </TabsContent>
+
+                      <div className="flex justify-center mt-4">
+                        <TripCreator />
+                      </div>
                     </Tabs>
                 </div>
               )}
@@ -119,15 +123,15 @@ export default function HomePage() {
 
                   <Tabs defaultValue="expenses" className="w-full">
                     <TabsList className="grid w-full max-w-lg mx-auto grid-cols-3 gap-x-4 mb-6 bg-dark-surface">
-                      <TabsTrigger value="expenses" className="flex items-center gap-2 cursor-pointer data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
+                      <TabsTrigger value="expenses" className="flex items-center gap-2 cursor-pointer data-[state=active]:bg-primary data-[state=active]:text-primary-foreground hover:bg-dark-bg transition-colors">
                         <Receipt className="h-4 w-4" />
                         <span className="hidden sm:inline">Gastos</span>
                       </TabsTrigger>
-                      <TabsTrigger value="balance" className="flex items-center gap-2 cursor-pointer data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
+                      <TabsTrigger value="balance" className="flex items-center gap-2 cursor-pointer data-[state=active]:bg-primary data-[state=active]:text-primary-foreground hover:bg-dark-bg transition-colors">
                         <Calculator className="h-4 w-4" />
                         <span className="hidden sm:inline">Balance</span>
                       </TabsTrigger>
-                      <TabsTrigger value="stats" className="flex items-center gap-2 cursor-pointer data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
+                      <TabsTrigger value="stats" className="flex items-center gap-2 cursor-pointer data-[state=active]:bg-primary data-[state=active]:text-primary-foreground hover:bg-dark-bg transition-colors">
                         <BarChart3 className="h-4 w-4" />
                         <span className="hidden sm:inline">Gráficos</span>
                       </TabsTrigger>

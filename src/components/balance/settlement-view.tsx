@@ -126,7 +126,7 @@ export function SettlementView() {
 
       <div className="mt-6 p-4 rounded-lg bg-primary/10 border border-primary/30">
         <p className="text-sm text-center">
-          💡 <strong>Tip:</strong> Con {settlements.length}{" "}
+          💡 Con {settlements.length}{" "}
           {settlements.length === 1 ? "pago" : "pagos"} se saldan todas las
           deudas
         </p>

@@ -19,7 +19,11 @@ export function ExpenseChart() {
   const { currentTrip, getBalances } = useExpenseStore();
 
   if (!currentTrip || currentTrip.participants.length === 0) {
-    return null;
+    return (
+      <div className="bg-[#1E293B] border border-[#334155] rounded p-8 text-white">
+        <p className="font-semibold text-primary text-center">Sin datos para mostrar</p>
+      </div>
+    );
   }
 
   const balances = getBalances();
@@ -38,7 +42,11 @@ export function ExpenseChart() {
     .sort((a, b) => b.paid - a.paid);
 
   if (chartData.every((d) => d.paid === 0)) {
-    return null;
+    return (
+      <div className="bg-[#1E293B] border border-[#334155] rounded p-8 text-white">
+        <p className="font-semibold text-primary text-center">Sin datos para mostrar</p>
+      </div>
+    );
   }
 
   // Tooltip personalizado
@@ -56,7 +64,11 @@ export function ExpenseChart() {
         </div>
       );
     }
-    return null;
+    return (
+      <div className="bg-[#1E293B] border border-[#334155] rounded p-8 text-white">
+        <p className="font-semibold text-primary text-center">Sin datos para mostrar</p>
+      </div>
+    );
   };
 
   return (

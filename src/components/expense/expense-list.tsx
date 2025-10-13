@@ -147,7 +147,7 @@ export function ExpenseList() {
                           removeExpense(expense.id);
                         }
                       }}
-                      className="opacity-0 group-hover:opacity-100 transition-opacity hover:bg-red-500/20 hover:text-red-400 shrink-0"
+                      className="transition-opacity hover:bg-red-500/20 hover:text-red-400 cursor-pointer shrink-0"
                     >
                       <Trash2 className="h-4 w-4" />
                     </Button>

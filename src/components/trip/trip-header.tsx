@@ -82,7 +82,7 @@ export function TripHeader({ onBack }: TripHeaderProps) {
 
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button variant="ghost" size="icon">
+          <Button className='cursor-pointer hover:bg-dark-surface rounded-full' variant="ghost" size="icon">
             <MoreVertical className="h-5 w-5" />
           </Button>
         </DropdownMenuTrigger>
@@ -92,7 +92,7 @@ export function TripHeader({ onBack }: TripHeaderProps) {
         >
           <DropdownMenuItem
             onClick={handleArchive}
-            className="cursor-pointer"
+            className="cursor-pointer hover:bg-dark-bg"
           >
             <Archive className="h-4 w-4 mr-2" />
             {currentTrip.archived ? 'Desarchivar' : 'Archivar'}
@@ -100,7 +100,7 @@ export function TripHeader({ onBack }: TripHeaderProps) {
           <DropdownMenuSeparator />
           <DropdownMenuItem
             onClick={handleDelete}
-            className="cursor-pointer text-red-400 focus:text-red-400"
+            className="cursor-pointer text-red-400 hover:bg-red-800/20 focus:text-red-400"
           >
             <Trash2 className="h-4 w-4 mr-2" />
             Eliminar viaje

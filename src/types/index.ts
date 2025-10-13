@@ -31,6 +31,7 @@ export interface Trip {
   endDate?: Date;
   participants: Participant[];
   expenses: Expense[];
+  payments?: Record<string, number>; // 👈 AGREGAR ESTA LÍNEA - key: "fromId-toId", value: amount paid
   archived: boolean;
 }
 
