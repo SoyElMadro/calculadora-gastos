@@ -99,8 +99,8 @@ export function ExpenseForm() {
             <Input
               id="amount"
               type="number"
-              step="0.01"
-              placeholder="0.00"
+              step="1"
+              placeholder="$ 0.00"
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
               className="bg-dark-bg border-dark-border"
@@ -119,7 +119,7 @@ export function ExpenseForm() {
               </SelectTrigger>
               <SelectContent className="bg-dark-surface border-dark-border select-content">
                 {Object.entries(CATEGORY_LABELS).map(([key, label]) => (
-                  <SelectItem key={key} value={key}>
+                  <SelectItem className="hover:bg-dark-bg cursor-pointer" key={key} value={key}>
                     {CATEGORY_ICONS[key as keyof typeof CATEGORY_ICONS]} {label}
                   </SelectItem>
                 ))}

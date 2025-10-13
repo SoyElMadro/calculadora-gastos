@@ -13,9 +13,11 @@ export function BalanceSummary() {
   if (!currentTrip || currentTrip.participants.length === 0) {
     return (
       <div className="bg-[#1E293B] border border-[#334155] rounded p-8 text-white">
-        <p className="font-semibold text-primary text-center">Sin datos para mostrar</p>
+        <p className="font-semibold text-primary text-center">
+          Sin datos para mostrar
+        </p>
       </div>
-    );;
+    );
   }
 
   const balances = getBalances();
@@ -30,11 +32,14 @@ export function BalanceSummary() {
             (p) => p.id === balance.participantId
           );
 
-          if (!participant) return (
-            <div className="bg-[#1E293B] border border-[#334155] rounded p-8 text-white">
-              <p className="font-semibold text-primary text-center">Sin datos para mostrar</p>
-            </div>
-          );
+          if (!participant)
+            return (
+              <div className="bg-[#1E293B] border border-[#334155] rounded p-8 text-white">
+                <p className="font-semibold text-primary text-center">
+                  Sin datos para mostrar
+                </p>
+              </div>
+            );
 
           const isPositive = balance.balance > 0;
           const isZero = Math.abs(balance.balance) < 0.01;

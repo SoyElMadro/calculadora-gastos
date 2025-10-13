@@ -15,7 +15,7 @@ import {
 } from '@/components/ui/dialog';
 import { PlusCircle } from 'lucide-react';
 
-export function TripCreator() {
+export function TripCreator({ onTripCreated }: { onTripCreated?: () => void}) {
   const [open, setOpen] = useState(false);
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
@@ -28,6 +28,7 @@ export function TripCreator() {
       setName('');
       setDescription('');
       setOpen(false);
+      onTripCreated?.();
     }
   };
 

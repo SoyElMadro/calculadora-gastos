@@ -16,6 +16,15 @@ export interface Expense {
   receiptUrl?: string;
 }
 
+export interface Payment {
+  id: string;
+  from: string; // participant id
+  to: string; // participant id
+  amount: number;
+  date: Date;
+  note?: string;
+}
+
 export interface Settlement {
   from: string;
   to: string;
@@ -31,6 +40,7 @@ export interface Trip {
   endDate?: Date;
   participants: Participant[];
   expenses: Expense[];
+  payments: Payment[];
   archived: boolean;
 }
 
@@ -38,5 +48,5 @@ export interface Balance {
   participantId: string;
   totalPaid: number;
   totalOwed: number;
-  balance: number; // positive = owed money, negative = owes money
+  balance: number; // positivo = le deben plata, negativo = debe plata
 }

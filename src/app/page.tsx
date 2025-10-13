@@ -12,6 +12,7 @@ import { ExpenseForm } from '@/components/expense/expense-form';
 import { ExpenseList } from '@/components/expense/expense-list';
 import { BalanceSummary } from '@/components/balance/balance-summary';
 import { SettlementView } from '@/components/balance/settlement-view';
+import { PaymentHistory } from '@/components/balance/payment-history'
 import { ExpenseChart } from '@/components/balance/expense-chart';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Receipt, Calculator, BarChart3, Home } from 'lucide-react';
@@ -89,7 +90,7 @@ export default function HomePage() {
                       </TabsContent>
 
                       <div className="flex justify-center mt-4">
-                        <TripCreator />
+                        <TripCreator onTripCreated={() => setView('trip')}  />
                       </div>
                     </Tabs>
                 </div>
@@ -103,7 +104,7 @@ export default function HomePage() {
                       Crea tu primer viaje o evento para empezar a dividir gastos de forma inteligente
                     </p>
                     <div className="flex justify-center">
-                      <TripCreator />
+                      <TripCreator onTripCreated={() => setView('trip')}  />
                     </div>
                   </div>
                 </div>
@@ -148,6 +149,7 @@ export default function HomePage() {
                     <TabsContent value="balance" className="space-y-6">
                       <BalanceSummary />
                       <SettlementView />
+                      <PaymentHistory />
                     </TabsContent>
 
                     <TabsContent value="stats" className="space-y-6">
