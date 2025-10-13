@@ -23,11 +23,6 @@ interface ExpenseStore {
   removeExpense: (expenseId: string) => void;
   updateExpense: (expenseId: string, data: Partial<Expense>) => void;
   
-  // Payment actions
-  addPayment: (from: string, to: string, amount: number) => void;
-  removePayment: (from: string, to: string) => void;
-  getPaymentAmount: (from: string, to: string) => number;
-  
   // Calculations
   getBalances: () => Balance[];
   getSettlements: () => Settlement[];
@@ -48,7 +43,6 @@ export const useExpenseStore = create<ExpenseStore>()(
           startDate: new Date(),
           participants: [],
           expenses: [],
-          payments: {}, // Agregar objeto de pagos
           archived: false,
         };
         
@@ -190,58 +184,6 @@ export const useExpenseStore = create<ExpenseStore>()(
           currentTrip: updatedTrip,
           trips: state.trips.map(t => t.id === currentTrip.id ? updatedTrip : t),
         }));
-      },
-      
-      // Nueva función: Agregar o actualizar un pago
-      addPayment: (from, to, amount) => {
-        const { currentTrip } = get();
-        if (!currentTrip) return;
-        
-        const paymentKey = `${from}-${to}`;
-        const currentPayments = currentTrip.payments || {};
-        const currentAmount = currentPayments[paymentKey] || 0;
-        
-        const updatedTrip = {
-          ...currentTrip,
-          payments: {
-            ...currentPayments,
-            [paymentKey]: currentAmount + amount,
-          },
-        };
-        
-        set((state) => ({
-          currentTrip: updatedTrip,
-          trips: state.trips.map(t => t.id === currentTrip.id ? updatedTrip : t),
-        }));
-      },
-      
-      // Nueva función: Remover un pago
-      removePayment: (from, to) => {
-        const { currentTrip } = get();
-        if (!currentTrip) return;
-        
-        const paymentKey = `${from}-${to}`;
-        const currentPayments = currentTrip.payments || {};
-        const { [paymentKey]: _, ...remainingPayments } = currentPayments;
-        
-        const updatedTrip = {
-          ...currentTrip,
-          payments: remainingPayments,
-        };
-        
-        set((state) => ({
-          currentTrip: updatedTrip,
-          trips: state.trips.map(t => t.id === currentTrip.id ? updatedTrip : t),
-        }));
-      },
-      
-      // Nueva función: Obtener monto pagado
-      getPaymentAmount: (from, to) => {
-        const { currentTrip } = get();
-        if (!currentTrip) return 0;
-        
-        const paymentKey = `${from}-${to}`;
-        return currentTrip.payments?.[paymentKey] || 0;
       },
       
       getBalances: () => {
