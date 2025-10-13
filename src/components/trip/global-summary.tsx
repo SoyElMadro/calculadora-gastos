@@ -54,7 +54,7 @@ export function GlobalSummary() {
           <div className="p-2 rounded-lg bg-secondary/10 mb-2">
             <Calendar className="size-8 text-secondary" />
           </div>
-          <p className="text-xs text-muted-foreground mb-1 text-center">Viajes</p>
+          <p className="text-xs text-muted-foreground mb-1 text-center">Eventos</p>
           <p className="text-2xl font-bold text-secondary text-center">{stats.totalTrips}</p>
         </Card>
       </motion.div>

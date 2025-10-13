@@ -112,7 +112,7 @@ export function ExpenseForm() {
             <Label htmlFor="category">Categoría</Label>
             <Select
               value={category}
-              onValueChange={(value: any) => setCategory(value)}
+              onValueChange={(value: "food" | "transport" | "accommodation" | "entertainment" | "other") => setCategory(value)}
             >
               <SelectTrigger className="bg-dark-bg border-dark-border">
                 <SelectValue />

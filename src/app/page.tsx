@@ -69,7 +69,7 @@ export default function HomePage() {
                           className="flex items-center gap-2 cursor-pointer data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
                         >
                           <Home className="h-4 w-4" />
-                          <span>Mis Viajes</span>
+                          <span>Mis Eventos</span>
                         </TabsTrigger>
                         <TabsTrigger
                           value="expenses"

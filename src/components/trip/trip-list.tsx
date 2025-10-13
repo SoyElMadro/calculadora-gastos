@@ -2,22 +2,21 @@
 
 import { useExpenseStore } from '@/store/expense-store';
 import { Card } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { formatCurrency } from '@/lib/utils';
 import { ChevronRight, Calendar, Users, Receipt, Archive } from 'lucide-react';
 import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
 import { motion } from 'framer-motion';
+import type { Trip, Expense } from '@/types';
 
 interface TripListProps {
   onSelectTrip: (tripId: string) => void;
 }
 
 export function TripList({ onSelectTrip }: TripListProps) {
-  const trips = useExpenseStore((state) => state.trips);
-  const getBalances = useExpenseStore((state) => state.getBalances);
-  const setCurrentTrip = useExpenseStore((state) => state.setCurrentTrip);
+  const trips = useExpenseStore((state) => state.trips as Trip[]);
+  const setCurrentTrip = useExpenseStore((state) => state.setCurrentTrip as (tripId: string) => void);
 
   const activeTrips = trips.filter((t) => !t.archived);
   const archivedTrips = trips.filter((t) => t.archived);
@@ -27,9 +26,9 @@ export function TripList({ onSelectTrip }: TripListProps) {
     onSelectTrip(tripId);
   };
 
-  const getTripStats = (trip: any) => {
+  const getTripStats = (trip: Trip) => {
     const totalExpenses = trip.expenses.reduce(
-      (sum: number, exp: any) => sum + exp.amount,
+      (sum: number, exp: Expense) => sum + exp.amount,
       0
     );
     return {
@@ -39,7 +38,7 @@ export function TripList({ onSelectTrip }: TripListProps) {
     };
   };
 
-  const renderTripCard = (trip: any, index: number) => {
+  const renderTripCard = (trip: Trip, index: number) => {
     const stats = getTripStats(trip);
 
     return (
@@ -77,9 +76,7 @@ export function TripList({ onSelectTrip }: TripListProps) {
                 <div className="flex items-center gap-1">
                   <Calendar className="h-4 w-4" />
                   <span>
-                    {format(new Date(trip.startDate), "d 'de' MMM", {
-                      locale: es,
-                    })}
+                    {format(trip.startDate, "d 'de' MMM", { locale: es })}
                   </span>
                 </div>
                 <div className="flex items-center gap-1">
@@ -108,15 +105,13 @@ export function TripList({ onSelectTrip }: TripListProps) {
     );
   };
 
-  if (trips.length === 0) {
-    return null;
-  }
+  if (trips.length === 0) return null;
 
   return (
     <div className="space-y-6">
       {activeTrips.length > 0 && (
         <div>
-          <h2 className="text-2xl font-semibold mb-4">Viajes Activos</h2>
+          <h2 className="text-2xl font-semibold mb-4">Eventos Activos</h2>
           <div className="space-y-3">
             {activeTrips.map((trip, index) => renderTripCard(trip, index))}
           </div>

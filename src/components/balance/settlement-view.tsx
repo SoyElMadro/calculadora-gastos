@@ -7,11 +7,9 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { formatCurrency } from "@/lib/utils";
 import { ArrowRight, CheckCircle2, Copy } from "lucide-react";
 import { motion } from "framer-motion";
-import { useState } from "react";
 
 export function SettlementView() {
   const { currentTrip, getSettlements } = useExpenseStore();
-  const [copiedIndex, setCopiedIndex] = useState<number | null>(null);
 
   if (!currentTrip || currentTrip.participants.length === 0) {
     return null;
@@ -30,19 +28,6 @@ export function SettlementView() {
       </Card>
     );
   }
-
-  const copyToClipboard = (settlement: any, index: number) => {
-    const from = currentTrip.participants.find((p) => p.id === settlement.from);
-    const to = currentTrip.participants.find((p) => p.id === settlement.to);
-
-    const text = `${from?.name} debe pagarle ${formatCurrency(
-      settlement.amount
-    )} a ${to?.name}`;
-
-    navigator.clipboard.writeText(text);
-    setCopiedIndex(index);
-    setTimeout(() => setCopiedIndex(null), 2000);
-  };
 
   const copyAllSettlements = () => {
     const text = settlements
