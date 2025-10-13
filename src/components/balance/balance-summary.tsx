@@ -34,7 +34,10 @@ export function BalanceSummary() {
 
           if (!participant)
             return (
-              <div className="bg-[#1E293B] border border-[#334155] rounded p-8 text-white">
+              <div 
+                key={`missing-${index}`}
+                className="bg-[#1E293B] border border-[#334155] rounded p-8 text-white"
+              >
                 <p className="font-semibold text-primary text-center">
                   Sin datos para mostrar
                 </p>
