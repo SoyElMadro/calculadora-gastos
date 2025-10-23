@@ -173,15 +173,6 @@ export function SettlementView() {
             );
           })}
         </div>
-
-        {/* Footer note */}
-        <div className="mt-6 p-3 sm:p-4 rounded-lg bg-primary/10 border border-primary/30">
-          <p className="text-xs sm:text-sm text-center leading-relaxed">
-            💡 Con {settlements.length}{" "}
-            {settlements.length === 1 ? "solo pago" : "pagos"} se saldan todas las
-            deudas.
-          </p>
-        </div>
       </Card>
 
       {/* Dialog para registrar pago */}

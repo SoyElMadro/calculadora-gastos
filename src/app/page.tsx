@@ -47,7 +47,7 @@ export default function HomePage() {
               <header className="mb-8">
                 <div className="text-center mb-6">
                   <h1 className="text-4xl md:text-6xl font-bold mb-2">
-                    <span className="gradient-text">Calculador de Gastos</span> 💰
+                    <span className="gradient-text">Xplitter</span> 💰
                   </h1>
                   <p className="text-muted-foreground text-lg">
                     Divide gastos fácilmente con amigos y familia
@@ -101,7 +101,7 @@ export default function HomePage() {
                   <div className="text-center space-y-3">
                     <h2 className="text-3xl font-semibold gradient-text">¡Comencemos!</h2>
                     <p className="text-muted-foreground text-lg max-w-md">
-                      Crea tu primer viaje o evento para empezar a dividir gastos de forma inteligente
+                      Crea tu primer evento para empezar a dividir gastos de forma inteligente
                     </p>
                     <div className="flex justify-center">
                       <TripCreator onTripCreated={() => setView('trip')}  />

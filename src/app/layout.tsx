@@ -5,8 +5,8 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Expense Splitter - Divide gastos fácilmente",
-  description: "Calculadora de gastos compartidos para juntadas y eventos",
+  title: "Xplitter - Divide gastos fácilmente",
+  description: "Calculadora de gastos compartidos para juntadas y/o eventos",
 };
 
 export default function RootLayout({
