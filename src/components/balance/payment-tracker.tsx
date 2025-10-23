@@ -29,6 +29,7 @@ export function PaymentTracker({ settlement, onClose }: PaymentTrackerProps) {
   const [amount, setAmount] = useState(settlement.amount.toString());
   const [note, setNote] = useState("");
   const [isPartial, setIsPartial] = useState(false);
+  const [isExceeding, setisExceeding] = useState(false);
 
   if (!currentTrip) return null;
 
@@ -38,11 +39,6 @@ export function PaymentTracker({ settlement, onClose }: PaymentTrackerProps) {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const paymentAmount = parseFloat(amount);
-
-    if (paymentAmount <= 0 || paymentAmount > settlement.amount) {
-      alert("Monto inválido");
-      return;
-    }
 
     addPayment({
       from: settlement.from,
@@ -103,14 +99,12 @@ export function PaymentTracker({ settlement, onClose }: PaymentTrackerProps) {
             <div className="flex gap-2">
               <Input
                 id="amount"
-                type="number"
-                step="0.01"
-                min="0"
-                max={settlement.amount}
+                type="text"
                 value={amount}
                 onChange={(e) => {
                   setAmount(e.target.value);
                   setIsPartial(parseFloat(e.target.value) < settlement.amount);
+                  setisExceeding(parseFloat(e.target.value) > settlement.amount)
                 }}
                 className="bg-dark-bg border-dark-border"
                 required
@@ -121,6 +115,7 @@ export function PaymentTracker({ settlement, onClose }: PaymentTrackerProps) {
                 onClick={() => {
                   setAmount(settlement.amount.toString());
                   setIsPartial(false);
+                  setisExceeding(false);
                 }}
                 className="whitespace-nowrap cursor-pointer hover:bg-dark-bg"
               >
@@ -132,6 +127,17 @@ export function PaymentTracker({ settlement, onClose }: PaymentTrackerProps) {
                 ⚠️ Pago parcial. Quedarán{" "}
                 {formatCurrency(settlement.amount - parseFloat(amount || "0"))}{" "}
                 pendientes
+              </p>
+            )}
+            {isExceeding && (
+              <p className="text-xs text-blue-400">
+                ⚠️ Excendiendo el pago. Se le deberá{" "}
+                {formatCurrency(parseFloat(amount || "0") - settlement.amount)}{" "}
+              </p>
+            )}
+            {!isExceeding && !isPartial && (
+              <p className="text-xs text-green-400">
+                ✅ Pago completo.
               </p>
             )}
           </div>

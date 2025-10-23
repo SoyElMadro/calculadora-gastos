@@ -23,7 +23,7 @@ interface ExpenseStore {
   removeExpense: (expenseId: string) => void;
   updateExpense: (expenseId: string, data: Partial<Expense>) => void;
 
-  // Payment actions - NUEVO
+  // Payment actions
   addPayment: (payment: Omit<Payment, 'id'>) => void;
   removePayment: (paymentId: string) => void;
 
@@ -44,12 +44,11 @@ function normalizeTrip(trip: Trip): Trip {
 export const useExpenseStore = create<ExpenseStore>()(
   persist(
     (set, get) => {
-      // --- FUNCIONES Y ESTADO PRINCIPAL ---
       const store: ExpenseStore = {
         currentTrip: null,
         trips: [],
 
-        // Trip actions
+        // --- TRIP ACTIONS ---
         createTrip: (name, description) => {
           const newTrip: Trip = {
             id: generateId(),
@@ -58,7 +57,7 @@ export const useExpenseStore = create<ExpenseStore>()(
             startDate: new Date(),
             participants: [],
             expenses: [],
-            payments: [], // NUEVO
+            payments: [],
             archived: false,
           };
 
@@ -95,7 +94,7 @@ export const useExpenseStore = create<ExpenseStore>()(
           }));
         },
 
-        // PARTICIPANTS -------------------
+        // --- PARTICIPANTS ---
         addParticipant: (name) => {
           const { currentTrip } = get();
           if (!currentTrip) return;
@@ -114,8 +113,7 @@ export const useExpenseStore = create<ExpenseStore>()(
           const newParticipant: Participant = {
             id: generateId(),
             name,
-            color:
-              colors[currentTrip.participants.length % colors.length],
+            color: colors[currentTrip.participants.length % colors.length],
           };
 
           const updatedTrip = {
@@ -146,8 +144,7 @@ export const useExpenseStore = create<ExpenseStore>()(
                 !e.splitBetween.includes(participantId)
             ),
             payments: (currentTrip.payments || []).filter(
-              (p) =>
-                p.from !== participantId && p.to !== participantId
+              (p) => p.from !== participantId && p.to !== participantId
             ),
           };
 
@@ -178,15 +175,12 @@ export const useExpenseStore = create<ExpenseStore>()(
           }));
         },
 
-        // EXPENSES -----------------------
+        // --- EXPENSES ---
         addExpense: (expense) => {
           const { currentTrip } = get();
           if (!currentTrip) return;
 
-          const newExpense: Expense = {
-            ...expense,
-            id: generateId(),
-          };
+          const newExpense: Expense = { ...expense, id: generateId() };
 
           const updatedTrip = {
             ...currentTrip,
@@ -207,9 +201,7 @@ export const useExpenseStore = create<ExpenseStore>()(
 
           const updatedTrip = {
             ...currentTrip,
-            expenses: (currentTrip.expenses || []).filter(
-              (e) => e.id !== expenseId
-            ),
+            expenses: (currentTrip.expenses || []).filter((e) => e.id !== expenseId),
           };
 
           set((state) => ({
@@ -239,15 +231,12 @@ export const useExpenseStore = create<ExpenseStore>()(
           }));
         },
 
-        // PAYMENTS -----------------------
+        // --- PAYMENTS ---
         addPayment: (payment) => {
           const { currentTrip } = get();
           if (!currentTrip) return;
 
-          const newPayment: Payment = {
-            ...payment,
-            id: generateId(),
-          };
+          const newPayment: Payment = { ...payment, id: generateId() };
 
           const updatedTrip = {
             ...currentTrip,
@@ -268,9 +257,7 @@ export const useExpenseStore = create<ExpenseStore>()(
 
           const updatedTrip = {
             ...currentTrip,
-            payments: (currentTrip.payments || []).filter(
-              (p) => p.id !== paymentId
-            ),
+            payments: (currentTrip.payments || []).filter((p) => p.id !== paymentId),
           };
 
           set((state) => ({
@@ -281,50 +268,34 @@ export const useExpenseStore = create<ExpenseStore>()(
           }));
         },
 
-        // CALCULATIONS -------------------
+        // --- CALCULATIONS ---
         getBalances: () => {
           const { currentTrip } = get();
           if (!currentTrip) return [];
 
           const balances: Record<string, Balance> = {};
 
-          // Inicializar balances
           (currentTrip.participants || []).forEach((p) => {
-            balances[p.id] = {
-              participantId: p.id,
-              totalPaid: 0,
-              totalOwed: 0,
-              balance: 0,
-            };
+            balances[p.id] = { participantId: p.id, totalPaid: 0, totalOwed: 0, balance: 0 };
           });
 
-          // Calcular gastos
           (currentTrip.expenses || []).forEach((expense) => {
-            if (balances[expense.paidBy]) {
-              balances[expense.paidBy].totalPaid += expense.amount;
-            }
-
+            if (balances[expense.paidBy]) balances[expense.paidBy].totalPaid += expense.amount;
             const amountPerPerson = expense.amount / expense.splitBetween.length;
             expense.splitBetween.forEach((participantId) => {
-              if (balances[participantId]) {
-                balances[participantId].totalOwed += amountPerPerson;
-              }
+              if (balances[participantId]) balances[participantId].totalOwed += amountPerPerson;
             });
           });
 
-          // Calcular balance base
-          Object.values(balances).forEach((b) => {
-            b.balance = b.totalPaid - b.totalOwed;
-          });
+          Object.values(balances).forEach((b) => (b.balance = b.totalPaid - b.totalOwed));
 
-          // Ajustar con pagos
           (currentTrip.payments || []).forEach((payment) => {
             if (balances[payment.from]) {
-              balances[payment.from].totalPaid += payment.amount; // suma como si hubiera pagado mas
+              balances[payment.from].totalPaid += payment.amount;
               balances[payment.from].balance += payment.amount;
             }
             if (balances[payment.to]) {
-              balances[payment.to].totalPaid -= payment.amount; // resta como si hubiera pagado menos
+              balances[payment.to].totalPaid -= payment.amount;
               balances[payment.to].balance -= payment.amount;
             }
           });
@@ -338,24 +309,15 @@ export const useExpenseStore = create<ExpenseStore>()(
 
           const debtors = balances
             .filter((b) => b.balance < 0)
-            .map((b) => ({
-              id: b.participantId,
-              amount: Math.abs(b.balance),
-            }));
+            .map((b) => ({ id: b.participantId, amount: Math.abs(b.balance) }));
 
           const creditors = balances
             .filter((b) => b.balance > 0)
-            .map((b) => ({
-              id: b.participantId,
-              amount: b.balance,
-            }));
+            .map((b) => ({ id: b.participantId, amount: b.balance }));
 
-          let i = 0,
-            j = 0;
+          let i = 0, j = 0;
           while (i < debtors.length && j < creditors.length) {
-            const debt = debtors[i].amount;
-            const credit = creditors[j].amount;
-            const settled = Math.min(debt, credit);
+            const settled = Math.min(debtors[i].amount, creditors[j].amount);
 
             settlements.push({
               from: debtors[i].id,
@@ -379,7 +341,6 @@ export const useExpenseStore = create<ExpenseStore>()(
     },
     {
       name: 'expense-splitter-storage',
-
       onRehydrateStorage: () => (state, error) => {
         if (error) {
           console.error('Error rehidratando el store:', error);
@@ -387,23 +348,22 @@ export const useExpenseStore = create<ExpenseStore>()(
         }
         if (!state) return;
 
-        // ✅ Usamos useExpenseStore.setState() para normalizar tras persistencia
-        useExpenseStore.setState((s) => ({
-          trips: (s.trips || []).map((t) => ({
-            ...t,
-            participants: t.participants || [],
-            expenses: t.expenses || [],
-            payments: t.payments || [],
-          })),
-          currentTrip: s.currentTrip
-            ? {
-              ...s.currentTrip,
-              participants: s.currentTrip.participants || [],
-              expenses: s.currentTrip.expenses || [],
-              payments: s.currentTrip.payments || [],
-            }
-            : null,
+        // Normalizamos directamente el state sin llamar a useExpenseStore
+        state.trips = (state.trips || []).map((t) => ({
+          ...t,
+          participants: t.participants || [],
+          expenses: t.expenses || [],
+          payments: t.payments || [],
         }));
+
+        if (state.currentTrip) {
+          state.currentTrip = {
+            ...state.currentTrip,
+            participants: state.currentTrip.participants || [],
+            expenses: state.currentTrip.expenses || [],
+            payments: state.currentTrip.payments || [],
+          };
+        }
       },
     }
   )

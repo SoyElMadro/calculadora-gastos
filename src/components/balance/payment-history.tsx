@@ -66,13 +66,14 @@ export function PaymentHistory() {
                         <div className="flex items-center gap-2 text-xs text-muted-foreground">
                           <Calendar className="h-3 w-3" />
                           <span>
-                            {format(
-                              new Date(payment.date),
-                              "d 'de' MMM, HH:mm",
-                              {
-                                locale: es,
-                              }
-                            )}
+                            {(() => {
+                              const paymentDate = new Date(payment.date);
+                              return isNaN(paymentDate.getTime())
+                                ? "-"
+                                : format(paymentDate, "d 'de' MMM, HH:mm", {
+                                    locale: es,
+                                  });
+                            })()}
                           </span>
                           {payment.note && (
                             <>
