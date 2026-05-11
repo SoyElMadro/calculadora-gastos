@@ -18,12 +18,12 @@ Una aplicación web simple para registrar y controlar gastos personales de forma
 
 ## 📂 Estructura del proyecto
 
-calculadora-gastos/
-│
-├── index.html
-├── style.css
-├── script.js
-└── assets/
+calculadora-gastos/<br>
+│<br>
+├── index.html<br>
+├── style.css<br>
+├── script.js<br>
+└── assets/<br>
 
 ## 📱 Responsive
 
