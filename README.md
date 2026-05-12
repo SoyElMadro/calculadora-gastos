@@ -10,21 +10,6 @@ Una aplicación web simple para registrar y controlar gastos personales de forma
 - Organización clara de los gastos
 - Funciona directamente desde el navegador
 
-## 🛠️ Tecnologías utilizadas
-
-- HTML5
-- CSS3
-- JavaScript Vanilla
-
-## 📂 Estructura del proyecto
-
-calculadora-gastos/<br>
-│<br>
-├── index.html<br>
-├── style.css<br>
-├── script.js<br>
-└── assets/<br>
-
 ## 📱 Responsive
 
 La aplicación está adaptada para dispositivos móviles, tablets y escritorio.
